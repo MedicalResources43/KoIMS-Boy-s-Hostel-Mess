@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Password Protect</title>
+<style>
+  
+  *{
+  margin:0;
+  padding:0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+body{
+  background-color: #131315;
+}
+
+.wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh
+}
+
+input{
+  background-color: #1f1f21; 
+  border: 1px solid #2e2e31; 
+  border-radius: 4px; 
+  width: 328px; 
+  margin: 0; 
+  outline: none;
+  padding: 12px 16px;
+  color: white
+}
+
+button{
+  background: #486fe2;
+  color: white;
+  height: 40px;
+  padding: 10px 20px;
+  min-width: 100px;
+  border-radius: 4px; 
+  margin-left: 10px;
+  outline: none;
+  border: none;
+  cursor: pointer
+}
+  
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="wrap">
+  <input class="password_text" type="text" placeholder="Password" id="password" autocomplete="off">
+
+  <button class="form_btn" type="button" onclick="onLogin(document.getElementById('password').value)">Login</button>
+</div>
+
+<!-- Try password "Abc" to go to "https://google.com" -->
+<!-- partial -->
+  <script>
+  
+  //This might not be the best thing to do, but it definitely does the job.
+
+function onLogin(password) {
+  if (password === key) {
+      location.href = output;
+    }
+  else{
+    alert("Wrong password");
+  }
+}
+
+//ROT13
+//breaking redirection URL to confuse one tryin to hack this URL
+let input="tbbtyr"; //URL body
+let pre="uggcf://" // "https://""
+let post=".pbz" // ".com"
+
+let spel="Nopr" //actual password "Abc" in rot13 format. 
+
+function isLowercase(char) {
+	var charCode = char.charCodeAt(0);
+	return charCode >= 97 && charCode <= 122;
+}
+
+function isUppercase(char) {
+	var charCode = char.charCodeAt(0);
+	return charCode >= 65 && charCode <= 90;
+}
+
+function rotateChar(char, offset) {
+	return String.fromCharCode(((char.charCodeAt(0) - offset + 13) % 26) + offset);
+}
+
+function rot13(text) {
+	return text.split("").map(function(char) {
+		var offset;
+		if (isLowercase(char)) 
+			offset = 97;
+		else if (isUppercase(char)) 
+			offset = 65;
+		else 
+			return char;
+		return rotateChar(char, offset);
+	}).join("");
+} 
+
+let output = rot13(pre) + rot13(input) + rot13(post);
+console.log(output);
+let key = rot13(spel);
+    
+  </script>
+
+</body>
+</html>
